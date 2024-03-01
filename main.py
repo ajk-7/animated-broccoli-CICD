@@ -9,7 +9,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Type', 'text/plain')
         self.end_headers()
 
-        message = "Helo, World"
+        message = "Hello, World"
         self.wfile.write(bytes(message, 'utf-8'))
 
 def run(host, port, server_class=HTTPServer, handler_class=Handler):

@@ -9,7 +9,7 @@ pipeline {
           scannerHome = tool 'SonarScanner'
         }
         withSonarQubeEnv('SonarQube Server') {
-          sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=python-app"
+          sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=CICD-101"
         }
       }
     }
@@ -17,14 +17,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    sh 'docker build -t kelvinskell/python-http-server .'
+                    sh 'docker build -t ajk598/python-http-server .'
             }
         }
     }
         stage('Containerize And Test') {
             steps {
                 script{
-                    sh 'docker run -d --name python-app kelvinskell/python-http-server && sleep 10 && docker stop python-app'
+                    sh 'docker run -d --name python-app ajk598/python-http-server && sleep 10 && docker stop python-app'
                 }
             }
         }
@@ -32,8 +32,8 @@ pipeline {
             steps {
                 script{
                     withCredentials([string(credentialsId: 'DockerHubPass', variable: 'DockerHubpass')]) {
-                    sh 'docker login -u kelvinskell --password ${DockerHubpass}' }
-                    sh 'docker push kelvinskell/python-http-server'
+                    sh 'docker login -u ajk598 --password ${DockerHubpass}' }
+                    sh 'docker push ajk598/python-http-server'
                 }
             }
         }    
